@@ -9,7 +9,8 @@ import { NgOptimizedImage, CommonModule, isPlatformBrowser } from '@angular/comm
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements AfterViewInit {
-  @ViewChild('heroVideo')     videoPlayer!: ElementRef<HTMLVideoElement>;
+  @ViewChild('videoPlayerA') videoPlayerA!: ElementRef<HTMLVideoElement>;
+  @ViewChild('videoPlayerB') videoPlayerB!: ElementRef<HTMLVideoElement>;
   @ViewChild('scrollSection') scrollSection!: ElementRef<HTMLElement>;
   @ViewChild('orbsCanvas')    orbsCanvas!: ElementRef<HTMLElement>;
 
@@ -17,8 +18,7 @@ export class HomeComponent implements AfterViewInit {
     'herovideos/Scuba_diving_under_ocean_202606102158.mp4',
     'herovideos/now_same_way_paragliding_202606102202.mp4'
   ];
-  currentVideoIndex = 0;
-  videoSrc = this.videos[0];
+  activeVideoPlayer: 'A' | 'B' = 'A';
 
   // Destinations list for dynamic horizontal scroll transitions
   destinations = [
@@ -240,31 +240,36 @@ export class HomeComponent implements AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => this.recalculateLayout(), 100);
 
-      // Force play after Angular hydration completes to ensure it autoplays
+      // Force play active video player A
       setTimeout(() => {
-        if (this.videoPlayer?.nativeElement) {
-          const video = this.videoPlayer.nativeElement;
-          video.play().catch(err => {
-            console.log('Autoplay play() triggered:', err);
+        if (this.videoPlayerA?.nativeElement) {
+          this.videoPlayerA.nativeElement.play().catch(err => {
+            console.log('Video Player A play failed:', err);
           });
         }
       }, 50);
     }
   }
 
-  onVideoEnded() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.currentVideoIndex = (this.currentVideoIndex + 1) % this.videos.length;
-      this.videoSrc = this.videos[this.currentVideoIndex];
-      setTimeout(() => {
-        if (this.videoPlayer?.nativeElement) {
-          const video = this.videoPlayer.nativeElement;
-          video.load();
-          video.play().catch(err => {
-            console.log('Next video autoplay prevented:', err);
-          });
-        }
-      }, 50);
+  onVideoAEnded() {
+    if (isPlatformBrowser(this.platformId) && this.videoPlayerB?.nativeElement) {
+      const videoB = this.videoPlayerB.nativeElement;
+      videoB.load();
+      videoB.play().then(() => {
+        this.activeVideoPlayer = 'B';
+        this.cdr.detectChanges();
+      }).catch(err => console.log('Video Player B play failed on transition:', err));
+    }
+  }
+
+  onVideoBEnded() {
+    if (isPlatformBrowser(this.platformId) && this.videoPlayerA?.nativeElement) {
+      const videoA = this.videoPlayerA.nativeElement;
+      videoA.load();
+      videoA.play().then(() => {
+        this.activeVideoPlayer = 'A';
+        this.cdr.detectChanges();
+      }).catch(err => console.log('Video Player A play failed on transition:', err));
     }
   }
 
