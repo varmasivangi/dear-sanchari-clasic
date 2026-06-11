@@ -1,1 +1,147 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+
+:root {
+  /* Core Brand Colors */
+  --color-white: #ffffff;
+  --color-off-white: #f8fafc;
+  
+  /* Ocean Blue Palette */
+  --color-ocean-blue-light: #e0f2fe;
+  --color-ocean-blue: #0ea5e9;
+  --color-ocean-blue-deep: #0284c7;
+  --color-ocean-blue-dark: #0369a1;
+
+  /* Ocean Green Palette */
+  --color-ocean-green-light: #ccfbf1;
+  --color-ocean-green: #14b8a6;
+  --color-ocean-green-deep: #0d9488;
+  --color-ocean-green-dark: #0f766e;
+
+  /* Neutrals & Text */
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  /* Gradients */
+  --gradient-ocean: linear-gradient(135deg, var(--color-ocean-blue) 0%, var(--color-ocean-green) 100%);
+  --gradient-ocean-hover: linear-gradient(135deg, var(--color-ocean-blue-deep) 0%, var(--color-ocean-green-deep) 100%);
+  --gradient-peace: linear-gradient(to right bottom, #ffffff, #f0f9ff, #e0f2fe);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 20px rgba(20, 184, 166, 0.3);
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Resets & Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--color-text-main);
+  background-color: var(--color-off-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-main);
+}
+
+a {
+  color: var(--color-ocean-blue);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-ocean-blue-dark);
+}
+
+/* Global Utility Classes */
+.text-gradient {
+  background: var(--gradient-ocean);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.bg-ocean {
+  background: var(--gradient-ocean);
+  color: var(--color-white);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px; /* Pill shape */
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: var(--gradient-ocean);
+  color: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  background: var(--gradient-ocean-hover);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-ocean-blue-deep);
+  border: 2px solid var(--color-ocean-blue);
+}
+
+.btn-outline:hover {
+  background: var(--color-ocean-blue-light);
+  transform: translateY(-2px);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-lg);
+  border-radius: 1.5rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}

@@ -1,0 +1,184 @@
+<!-- Hero Video -->
+<section class="hero-section">
+  <video #heroVideo class="hero-bg-video" autoplay muted playsinline
+    [src]="videoSrc" (ended)="onVideoEnded()"></video>
+</section>
+
+<!-- Tall placeholder — controls how long the freeze lasts -->
+<section class="hs-section" #scrollSection>
+
+  <!-- position:fixed frame — immune to all parent overflow rules -->
+  <div class="hs-frame" #stickyFrame>
+    <div class="hs-title">
+      <div class="hs-title-wrapper">
+        <!-- Default Main Heading + Subtitle -->
+        <div class="hs-default-view" [class.hidden]="activeDestIndex !== -1">
+          <h2>Where to<br><span class="text-gradient">Next?</span></h2>
+          <p class="hs-default-sub">Follow the bubbles to find your absolute peace.</p>
+        </div>
+
+        <!-- Dynamic Destination Views -->
+        <div class="hs-dest-view" 
+             *ngFor="let dest of destinations; let i = index" 
+             [class.active]="activeDestIndex === i">
+          <span class="dest-tag">ESCAPE {{ i + 1 }} OF 10</span>
+          <h2 class="dest-name-heading"><span class="text-gradient">{{ dest.name }}</span></h2>
+          <p class="dest-sub-desc">{{ dest.subtitle }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hs-canvas" #orbsCanvas>
+      <div class="orb orb-1"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Maldives" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Maldives</h3><span>Private Escapes</span></div>
+      </div></div>
+
+      <div class="orb orb-2"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1531366936336-62fc674baa3e?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Swiss Alps" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Swiss Alps</h3><span>Alpine Serenity</span></div>
+      </div></div>
+
+      <div class="orb orb-3"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Kyoto" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Kyoto</h3><span>Zen Gardens</span></div>
+      </div></div>
+
+      <div class="orb orb-4"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Santorini" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Santorini</h3><span>Sunset Horizons</span></div>
+      </div></div>
+
+      <div class="orb orb-5"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Bali" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Bali</h3><span>Tropical Sanctuaries</span></div>
+      </div></div>
+
+      <div class="orb orb-6"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Iceland" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Iceland</h3><span>Aurora Dreams</span></div>
+      </div></div>
+
+      <div class="orb orb-7"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Dubai" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Dubai</h3><span>Golden Luxury</span></div>
+      </div></div>
+
+      <div class="orb orb-8"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Patagonia" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Patagonia</h3><span>Wild Frontiers</span></div>
+      </div></div>
+
+      <div class="orb orb-9"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Thailand" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Thailand</h3><span>Temple Trails</span></div>
+      </div></div>
+
+      <div class="orb orb-10"><div class="orb-inner">
+        <img ngSrc="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=400&q=60" alt="Amalfi Coast" fill sizes="(max-width: 768px) 250px, 350px" />
+        <div class="orb-caption"><h3>Amalfi Coast</h3><span>Italian Dreams</span></div>
+      </div></div>
+
+      <!-- Final card introducing the next section -->
+      <div class="hs-end-card">
+        <span class="end-tag">Adventure Awaits</span>
+        <h2 class="end-heading">Ready for the<br><span class="text-gradient-adventure">Next Thrill?</span></h2>
+        <p class="end-desc">From peaceful horizons to heart-pounding heights. Keep scrolling to explore the wilder side.</p>
+        <div class="scroll-down-indicator">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-down-glow">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+          </svg>
+          <span>Scroll Down</span>
+        </div>
+      </div>
+    </div><!-- /hs-canvas -->
+  </div><!-- /hs-frame -->
+</section>
+
+<!-- ================================================
+     ACTIVITIES SECTION — Dark, editorial, dramatic
+     ================================================ -->
+<section class="act-section">
+
+  <div class="act-header">
+    <span class="act-tag">Feel The Rush</span>
+    <h2 class="act-title">Adventure<br><span class="text-gradient">Awaits You</span></h2>
+    <p class="act-sub">From the skies to the ocean depths — we craft thrill for every soul.</p>
+  </div>
+
+  <div class="act-container">
+    
+    <!-- LEFT SIDE SHOWCASE (Desktop only) -->
+    <div class="act-showcase">
+      <div class="act-preview-sticky">
+        <div class="act-images-track" [style.transform]="'translateY(-' + (activeActivityIndex * 100) + '%)'">
+          <div class="act-preview-card" *ngFor="let act of activities; let i = index" [class.active]="activeActivityIndex === i">
+            <img [ngSrc]="act.img" [alt]="act.name" fill sizes="(max-width: 992px) 100vw, 45vw" [priority]="i === 0" />
+            <div class="act-preview-overlay">
+              <span class="act-preview-stats">{{ act.stats }}</span>
+              <h3 class="act-preview-title">{{ act.name }}</h3>
+              <p class="act-preview-tagline">{{ act.tagline }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE LIST (Responsive Accordion) -->
+    <div class="act-list">
+      <div class="act-list-item" 
+           *ngFor="let act of activities; let i = index" 
+           [class.active]="activeActivityIndex === i"
+           (mouseenter)="activeActivityIndex = i"
+           (click)="activeActivityIndex = i">
+        
+        <div class="act-list-header">
+          <div class="act-list-num">0{{ i + 1 }}</div>
+          <div class="act-list-title-wrap">
+            <h4>{{ act.name }}</h4>
+            <span class="act-mobile-stats">{{ act.stats }}</span>
+          </div>
+        </div>
+
+        <!-- Mobile/Tablet Image & Description Wrapper (Permanently Expanded) -->
+        <div class="act-list-body">
+          <div class="act-mobile-img">
+            <img [ngSrc]="act.img" [alt]="act.name" fill sizes="(max-width: 992px) 90vw, 45vw" />
+          </div>
+          <p class="act-list-desc">{{ act.desc }}</p>
+
+          <!-- Dynamic Activity Packages -->
+          <div class="act-packages-grid">
+            <div class="act-pkg-card" *ngFor="let pkg of act.packages">
+              <div class="act-pkg-badge" *ngIf="pkg.discount">{{ pkg.discount }}</div>
+              <h5 class="act-pkg-name">{{ pkg.name }}</h5>
+              <div class="act-pkg-price-row">
+                <span class="act-pkg-price">{{ pkg.price }}</span>
+                <span class="act-pkg-old-price" *ngIf="pkg.originalPrice">{{ pkg.originalPrice }}</span>
+              </div>
+              <ul class="act-pkg-features">
+                <li *ngFor="let feat of pkg.features">
+                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>{{ feat }}</span>
+                </li>
+              </ul>
+              <button class="act-pkg-btn">
+                <span>Book Thrill</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</section>
