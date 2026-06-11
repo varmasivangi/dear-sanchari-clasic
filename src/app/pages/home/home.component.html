@@ -1,8 +1,10 @@
 <!-- Hero Video Crossfade -->
 <section class="hero-section">
   <video #videoPlayerA class="hero-bg-video" [class.active]="activeVideoPlayer === 'A'" autoplay muted playsinline
+    preload="auto" poster="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1920&q=80"
     [src]="videos[0]" (ended)="onVideoAEnded()"></video>
   <video #videoPlayerB class="hero-bg-video" [class.active]="activeVideoPlayer === 'B'" muted playsinline
+    preload="none" poster="https://images.unsplash.com/photo-1596701062351-df5f8af54b85?auto=format&fit=crop&w=1920&q=80"
     [src]="videos[1]" (ended)="onVideoBEnded()"></video>
 </section>
 
