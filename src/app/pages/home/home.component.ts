@@ -18,7 +18,7 @@ export class HomeComponent implements AfterViewInit {
     'https://assets.mixkit.co/videos/preview/mixkit-scenic-canyon-with-river-valley-41584-large.mp4'
   ];
   currentVideoIndex = 0;
-  videoSrc = ''; // Keep empty initially to prevent early download of large video files
+  videoSrc = this.videos[0];
 
   // Destinations list for dynamic horizontal scroll transitions
   destinations = [
@@ -239,20 +239,6 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => this.recalculateLayout(), 100);
-
-      // Lazy load the video source after initial page render to optimize LCP and TBT
-      setTimeout(() => {
-        this.videoSrc = this.videos[this.currentVideoIndex];
-        setTimeout(() => {
-          if (this.videoPlayer?.nativeElement) {
-            const video = this.videoPlayer.nativeElement;
-            video.load();
-            video.play().catch(err => {
-              console.log('Autoplay prevented:', err);
-            });
-          }
-        }, 50);
-      }, 1500);
     }
   }
 
