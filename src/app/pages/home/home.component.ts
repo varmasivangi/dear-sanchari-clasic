@@ -14,8 +14,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild('orbsCanvas')    orbsCanvas!: ElementRef<HTMLElement>;
 
   videos: string[] = [
-    'https://assets.mixkit.co/videos/preview/mixkit-underwater-light-beams-and-bubbles-40997-large.mp4',
-    'https://assets.mixkit.co/videos/preview/mixkit-scenic-canyon-with-river-valley-41584-large.mp4'
+    'herovideos/Scuba_diving_under_ocean_202606102158.mp4',
+    'herovideos/now_same_way_paragliding_202606102202.mp4'
   ];
   currentVideoIndex = 0;
   videoSrc = this.videos[0];
@@ -239,6 +239,16 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => this.recalculateLayout(), 100);
+
+      // Force play after Angular hydration completes to ensure it autoplays
+      setTimeout(() => {
+        if (this.videoPlayer?.nativeElement) {
+          const video = this.videoPlayer.nativeElement;
+          video.play().catch(err => {
+            console.log('Autoplay play() triggered:', err);
+          });
+        }
+      }, 50);
     }
   }
 
