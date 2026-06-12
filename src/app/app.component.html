@@ -1,11 +1,94 @@
 <div class="app-layout">
   <!-- Left Side Editorial Header -->
-  <header class="header-vertical">
-    <div class="brand-vertical">
+  <header class="header-vertical" [class.is-scrolled]="isScrolled">
+    <!-- Main Top Logo (Hides on Scroll on Mobile) -->
+    <div class="brand-vertical" (click)="toggleMobileMenu()">
       <div class="logo-icon bg-ocean"></div>
       <span class="brand-text">Dear Sanchari</span>
     </div>
+
+    <!-- Mobile Scrolled Hamburger & Hanging Logo Pendant -->
+    <div class="mobile-scrolled-nav">
+      <div class="hamburger-container">
+        <!-- Floating Circular Hamburger Button -->
+        <button class="hamburger-btn" (click)="toggleMobileMenu()">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <!-- Logo Pendant Hanging down from the button -->
+        <div class="logo-pendant">
+          <div class="pendant-thread"></div>
+          <div class="pendant-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" class="pendant-svg">
+              <path d="M12 2L2 22l10-6 10 6L12 2z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
+
+  <!-- Mobile Navigation Drawer Overlay -->
+  <div class="mobile-menu-drawer" [class.is-open]="isMobileMenuOpen">
+    <div class="drawer-backdrop" (click)="closeMobileMenu()"></div>
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <div class="drawer-brand">
+          <div class="logo-icon bg-ocean"></div>
+          <span>Dear Sanchari</span>
+        </div>
+        <button class="drawer-close-btn" (click)="closeMobileMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="close-svg">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="drawer-nav">
+        <div class="drawer-section-title">EXPLORE</div>
+        <a href="#featured" class="drawer-nav-item" (click)="closeMobileMenu()">
+          <span class="item-num">01</span>
+          <span class="item-text">Featured Trips</span>
+          <svg class="item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
+        </a>
+        <a href="#resets" class="drawer-nav-item" (click)="closeMobileMenu()">
+          <span class="item-num">02</span>
+          <span class="item-text">OOO Resets</span>
+          <svg class="item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
+        </a>
+        <a href="#about" class="drawer-nav-item" (click)="closeMobileMenu()">
+          <span class="item-num">03</span>
+          <span class="item-text">Our Philosophy</span>
+          <svg class="item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
+        </a>
+        <a href="#contact" class="drawer-nav-item" (click)="closeMobileMenu()">
+          <span class="item-num">04</span>
+          <span class="item-text">Get in Touch</span>
+          <svg class="item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
+        </a>
+      </nav>
+
+      <div class="drawer-footer">
+        <p class="drawer-footer-tag">LUXURY ESCAPES</p>
+        <a href="tel:+1234567890" class="drawer-call-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="phone-svg">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Call to Customize
+        </a>
+      </div>
+    </div>
+  </div>
 
   <main class="main-content">
     <router-outlet />
@@ -66,23 +149,359 @@
     /* NOTE: overflow must NOT be set here — it breaks position:sticky on children */
   }
 
-  /* Mobile Responsiveness for Header */
+  /* Mobile Scrolled Hamburger and Hanging Pendant */
+  .mobile-scrolled-nav {
+    display: none;
+  }
+
+  /* Mobile Drawer Overlay styles */
+  .mobile-menu-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    pointer-events: none;
+    display: none;
+  }
+
+  /* Mobile Responsiveness for Header & Drawer */
   @media (max-width: 768px) {
     .header-vertical {
       width: 100%;
       height: 80px;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: space-between;
+      align-items: center;
       padding: 0 1.5rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.4s ease;
+      pointer-events: none;
     }
     
     .brand-vertical {
       transform: none;
       font-size: 1.5rem;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+      opacity: 1;
+      pointer-events: auto;
     }
     
     .logo-icon {
       transform: none;
+    }
+
+    /* Scrolled state transitions */
+    .header-vertical.is-scrolled .brand-vertical {
+      transform: translateY(-80px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .mobile-scrolled-nav {
+      display: block;
+      position: absolute;
+      top: 15px;
+      right: 1.5rem;
+      pointer-events: auto;
+      opacity: 0;
+      transform: translateY(-80px);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    }
+
+    .header-vertical.is-scrolled .mobile-scrolled-nav {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hamburger-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hamburger-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(28, 25, 23, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .hamburger-btn:hover {
+      background: rgba(28, 25, 23, 0.95);
+      transform: scale(1.05);
+    }
+
+    .hamburger-btn .bar {
+      width: 18px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 1px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hanging Pendant */
+    .logo-pendant {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px) scale(0.5);
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      transition: transform 0.6s cubic-bezier(0.34, 1.6, 0.64, 1), opacity 0.4s ease;
+    }
+
+    .header-vertical.is-scrolled .logo-pendant {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 1;
+      transition-delay: 0.15s;
+    }
+
+    .pendant-thread {
+      width: 1.5px;
+      height: 28px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.15));
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .pendant-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-ocean-blue), var(--color-ocean-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: swing 3s ease-in-out infinite alternate;
+      transform-origin: top center;
+    }
+
+    .pendant-svg {
+      width: 11px;
+      height: 11px;
+      color: #06090e;
+    }
+
+    /* Mobile Drawer Overlay styles */
+    .mobile-menu-drawer {
+      display: block;
+    }
+    
+    .drawer-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(6, 9, 14, 0.3);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    
+    .mobile-menu-drawer.is-open .drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .drawer-content {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      width: 270px;
+      background: rgba(10, 12, 16, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 1.25rem;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    
+    .mobile-menu-drawer.is-open .drawer-content {
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+    }
+    
+    .drawer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    
+    .drawer-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .drawer-close-btn:hover {
+      color: #ffffff;
+    }
+    
+    .close-svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .drawer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+
+    .drawer-section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      padding-left: 0.25rem;
+    }
+    
+    .drawer-nav-item {
+      display: flex;
+      align-items: center;
+      padding: 1.05rem 0.25rem;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .drawer-nav-item:hover {
+      transform: translateX(3px);
+    }
+
+    .item-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-ocean-blue);
+      width: 24px;
+    }
+
+    .item-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      flex: 1;
+      transition: color 0.3s ease;
+    }
+
+    .drawer-nav-item:hover .item-text {
+      color: #ffffff;
+    }
+
+    .item-arrow {
+      width: 12px;
+      height: 12px;
+      color: rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .drawer-nav-item:hover .item-arrow {
+      transform: translateX(2px);
+      color: var(--color-ocean-green);
+    }
+    
+    .drawer-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 1.5rem;
+    }
+    
+    .drawer-footer-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 0.75rem;
+    }
+    
+    .drawer-call-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.65rem;
+      border-radius: 0.75rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+      box-shadow: none;
+      transition: all 0.3s ease;
+    }
+
+    .drawer-call-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-1px);
+    }
+    
+    .phone-svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* Playful swinging animation for the hanging logo */
+  @keyframes swing {
+    0% {
+      transform: rotate(-10deg);
+    }
+    100% {
+      transform: rotate(10deg);
     }
   }
 </style>

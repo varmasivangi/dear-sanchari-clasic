@@ -17,7 +17,7 @@
       <div class="hs-title-wrapper">
         <!-- Default Main Heading + Subtitle -->
         <div class="hs-default-view" [class.hidden]="activeDestIndex !== -1">
-          <h2>Where to<br><span class="text-gradient">Next?</span></h2>
+          <h1 class="seo-title">Where to<br><span class="text-gradient">Next?</span></h1>
           <p class="hs-default-sub">Follow the bubbles to find your absolute peace.</p>
         </div>
 
@@ -106,83 +106,214 @@
 <section class="act-section">
 
   <div class="act-header">
-    <span class="act-tag">Feel The Rush</span>
-    <h2 class="act-title">Adventure<br><span class="text-gradient">Awaits You</span></h2>
-    <p class="act-sub">From the skies to the ocean depths — we craft thrill for every soul.</p>
+    <span class="act-tag">Featured Collections</span>
+    <h2 class="act-title">Tour Packages &<br><span class="text-gradient">Highlights</span></h2>
+    <p class="act-sub">Carefully curated journeys combining luxury stays with unforgettable thrill activities.</p>
   </div>
 
-  <div class="act-container">
+  <!-- Horizontal Tabs Menu -->
+  <div class="act-tabs-container">
+    <div class="act-tabs-scroll">
+      <button *ngFor="let act of activities; let i = index"
+              class="act-tab-btn"
+              [class.active]="activeActivityIndex === i"
+              (click)="activeActivityIndex = i">
+        <span class="tab-num">0{{ i + 1 }}</span>
+        <span class="tab-name">{{ act.name.split(' ')[0] }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Showcase Panel: Dest details on Left, 2 Packages on Right -->
+  <div class="act-showcase-panel">
     
-    <!-- LEFT SIDE SHOWCASE (Desktop only) -->
-    <div class="act-showcase">
-      <div class="act-preview-sticky">
-        <div class="act-images-track" [style.transform]="'translateY(-' + (activeActivityIndex * 100) + '%)'">
-          <div class="act-preview-card" *ngFor="let act of activities; let i = index" [class.active]="activeActivityIndex === i">
-            <img [ngSrc]="act.img" [alt]="act.name" fill sizes="(max-width: 992px) 100vw, 45vw" [priority]="i === 0" />
-            <div class="act-preview-overlay">
-              <span class="act-preview-stats">{{ act.stats }}</span>
-              <h3 class="act-preview-title">{{ act.name }}</h3>
-              <p class="act-preview-tagline">{{ act.tagline }}</p>
-            </div>
+    <!-- Left Column: Destination Card -->
+    <div class="act-dest-column">
+      <div class="act-dest-card">
+        <img [src]="activities[activeActivityIndex].img" [alt]="activities[activeActivityIndex].name" class="act-dest-img" />
+        <div class="act-dest-overlay">
+          <span class="act-dest-stats">{{ activities[activeActivityIndex].stats }}</span>
+          <h3 class="act-dest-title">{{ activities[activeActivityIndex].name }}</h3>
+          <p class="act-dest-desc">{{ activities[activeActivityIndex].desc }}</p>
+          
+          <!-- Highlights List -->
+          <div class="act-highlights-wrap" *ngIf="activities[activeActivityIndex].highlights">
+            <span class="act-highlight-badge" *ngFor="let hl of activities[activeActivityIndex].highlights">
+              <span class="dot"></span>
+              {{ hl }}
+            </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT SIDE LIST (Responsive Accordion) -->
-    <div class="act-list">
-      <div class="act-list-item" 
-           *ngFor="let act of activities; let i = index" 
-           [class.active]="activeActivityIndex === i"
-           (mouseenter)="activeActivityIndex = i"
-           (click)="activeActivityIndex = i">
-        
-        <div class="act-list-header">
-          <div class="act-list-num">0{{ i + 1 }}</div>
-          <div class="act-list-title-wrap">
-            <h4>{{ act.name }}</h4>
-            <span class="act-mobile-stats">{{ act.stats }}</span>
+    <!-- Right Column: Packages Grid (Side-by-Side) -->
+    <div class="act-packages-column">
+      <div class="act-packages-grid">
+        <div class="act-pkg-card" *ngFor="let pkg of activities[activeActivityIndex].packages">
+          <!-- Package Image Header -->
+          <div class="act-pkg-img-wrap" *ngIf="pkg.img">
+            <img [src]="pkg.img" [alt]="pkg.name" class="act-pkg-img" />
+            <div class="act-pkg-badge" *ngIf="pkg.discount">{{ pkg.discount }}</div>
           </div>
-        </div>
-
-        <!-- Mobile/Tablet Image & Description Wrapper (Permanently Expanded) -->
-        <div class="act-list-body">
-          <div class="act-mobile-img">
-            <img [ngSrc]="act.img" [alt]="act.name" fill sizes="(max-width: 992px) 90vw, 45vw" />
-          </div>
-          <p class="act-list-desc">{{ act.desc }}</p>
-
-          <!-- Dynamic Activity Packages -->
-          <div class="act-packages-grid">
-            <div class="act-pkg-card" *ngFor="let pkg of act.packages">
-              <div class="act-pkg-badge" *ngIf="pkg.discount">{{ pkg.discount }}</div>
-              <h5 class="act-pkg-name">{{ pkg.name }}</h5>
-              <div class="act-pkg-price-row">
-                <span class="act-pkg-price">{{ pkg.price }}</span>
-                <span class="act-pkg-old-price" *ngIf="pkg.originalPrice">{{ pkg.originalPrice }}</span>
-              </div>
-              <ul class="act-pkg-features">
-                <li *ngFor="let feat of pkg.features">
-                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  <span>{{ feat }}</span>
-                </li>
-              </ul>
-              <button class="act-pkg-btn">
-                <span>Book Thrill</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
+          
+          <!-- Content Container -->
+          <div class="act-pkg-content">
+            <h5 class="act-pkg-name">{{ pkg.name }}</h5>
+            <div class="act-pkg-price-row">
+              <span class="act-pkg-price">{{ pkg.price }}</span>
+              <span class="act-pkg-old-price" *ngIf="pkg.originalPrice">{{ pkg.originalPrice }}</span>
             </div>
+            <ul class="act-pkg-features">
+              <li *ngFor="let feat of pkg.features">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ feat }}</span>
+              </li>
+            </ul>
+            <button class="act-pkg-btn">
+              <span>Book Journey</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
           </div>
         </div>
-
       </div>
     </div>
 
   </div>
 
+</section>
+
+<!-- ================================================
+     LIGHT EDITORIAL WEEKEND RESETS (NEVER BEFORE SEEN)
+     ================================================ -->
+<section class="escapes-section">
+  <div class="escapes-container">
+    
+    <!-- Editorial Light Header -->
+    <div class="escapes-header">
+      <span class="escapes-subtitle-tag">48-Hour Micro-Cations</span>
+      <h2 class="escapes-main-title">Out-of-Office Resets</h2>
+      <p class="escapes-desc">
+        A curated selection of quick weekend getaways crafted for busy professionals. Set your Slack status to OOO on Friday evening, return Monday morning with zero leaves used.
+      </p>
+    </div>
+
+    <!-- Horizontal Luxury Destination Menu -->
+    <div class="escapes-menu">
+      <button *ngFor="let trip of weekendTrips; let i = index"
+              class="escape-menu-btn"
+              [class.active]="activeWeekendIndex === i"
+              (click)="selectWeekend(i)">
+        <span class="escape-menu-num">0{{ i + 1 }}</span>
+        <span class="escape-menu-name">
+          <span class="tab-desktop-name">{{ trip.name }}</span>
+          <span class="tab-mobile-name">{{ trip.name.split(' ')[0] }}</span>
+        </span>
+        <span class="escape-menu-vibe">{{ trip.vibe }}</span>
+      </button>
+    </div>
+
+    <!-- Split Screen Interactive Showcase -->
+    <div class="escapes-showcase">
+      
+      <!-- Left: Interactive Stepper Timeline -->
+      <div class="showcase-left">
+        <h3 class="showcase-vibe-title">{{ weekendTrips[activeWeekendIndex].name }}</h3>
+        
+        <div class="showcase-timeline">
+          <div class="timeline-stepper-line"></div>
+          
+          <div *ngFor="let slide of weekendTrips[activeWeekendIndex].slides; let j = index"
+               class="timeline-step-item"
+               [class.active]="activeMomentIndex === j"
+               (click)="activeMomentIndex = j">
+            
+            <!-- Big Luxury Number Button -->
+            <div class="step-badge">
+              <span>0{{ j + 1 }}</span>
+            </div>
+            
+            <!-- Step Description Content -->
+            <div class="step-text-content">
+              <span class="step-time-label">{{ slide.time }}</span>
+              <h4 class="step-heading">{{ slide.title }}</h4>
+              
+              <!-- Embedded Mobile-Only Image Frame -->
+              <div class="step-mobile-media">
+                <img [src]="slide.img" [alt]="slide.title" class="step-mobile-img" />
+                <div class="step-mobile-badge">STAGE 0{{ j + 1 }}</div>
+              </div>
+
+              <p class="step-description">{{ slide.desc }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Elegant Checkout CTA Block -->
+        <div class="escapes-cta-block">
+          <div class="cta-price-row">
+            <span class="cta-price-lbl">Weekend Package</span>
+            <span class="cta-price-val">{{ weekendTrips[activeWeekendIndex].price }} <span class="price-suffix">/ all-inclusive</span></span>
+          </div>
+          <button class="escapes-reserve-btn">
+            <span class="btn-text-desktop">Reserve Reset Journey</span>
+            <span class="btn-text-mobile">Reserve</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="arrow-icon">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Immersive Portal Frame & Timeline Dial -->
+      <div class="showcase-right">
+        
+        <!-- Large Architectural Portal Frame -->
+        <div class="portal-frame-wrapper">
+          <div class="portal-arch-frame">
+            <img [src]="weekendTrips[activeWeekendIndex].slides[activeMomentIndex].img"
+                 [alt]="weekendTrips[activeWeekendIndex].slides[activeMomentIndex].title"
+                 class="portal-img" />
+          </div>
+
+          <!-- Interactive Hour Dial Overlay -->
+          <div class="portal-hour-dial">
+            <svg class="dial-svg" viewBox="0 0 100 100">
+              <!-- Background Circle -->
+              <circle class="dial-bg-track" cx="50" cy="50" r="45"></circle>
+              <!-- Progress Circle -->
+              <circle class="dial-progress-track"
+                      cx="50" cy="50" r="45"
+                      [style.strokeDashoffset]="282.7 - (282.7 * ((activeMomentIndex + 1) / 3))"></circle>
+            </svg>
+            <div class="dial-content">
+              <span class="dial-phase-text">STAGE</span>
+              <span class="dial-hour-num">0{{ activeMomentIndex + 1 }}</span>
+            </div>
+          </div>
+          
+          <!-- Floating Duration Badge -->
+          <div class="portal-duration-badge">
+            <span>{{ weekendTrips[activeWeekendIndex].duration }}</span>
+          </div>
+        </div>
+
+        <!-- Caption Detail under portal -->
+        <div class="portal-caption-area">
+          <span class="caption-tag">Active Micro-Moment</span>
+          <h3 class="caption-title">{{ weekendTrips[activeWeekendIndex].slides[activeMomentIndex].title }}</h3>
+          <p class="caption-text">{{ weekendTrips[activeWeekendIndex].slides[activeMomentIndex].desc }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 </section>
