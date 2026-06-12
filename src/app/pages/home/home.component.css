@@ -921,6 +921,11 @@
 }
 
 /* END CARD STYLING */
+@keyframes floatEndCard {
+  0%, 100% { transform: translateY(-50%); }
+  50%      { transform: translateY(calc(-50% - 20px)); }
+}
+
 .hs-end-card {
   position: absolute;
   top: 50%;
@@ -928,7 +933,7 @@
   width: 480px;
   z-index: 5;
   color: var(--color-text-main);
-  animation: floatY 9s ease-in-out infinite;
+  animation: floatEndCard 9s ease-in-out infinite;
 }
 
 .end-tag {
@@ -1083,7 +1088,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: #1C1917;
+  background: linear-gradient(135deg, var(--color-ocean-blue), var(--color-ocean-green));
   transform: scaleX(0);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1101,7 +1106,7 @@
 }
 
 .escape-menu-btn.active .escape-menu-num {
-  color: #1C1917;
+  color: var(--color-ocean-blue);
 }
 
 .escape-menu-name {
